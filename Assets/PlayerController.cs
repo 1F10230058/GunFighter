@@ -5,6 +5,7 @@ public class PlayerController : MonoBehaviour
 {
     // publicにするとUnityエディタのインスペクターから調整できる
     public float moveSpeed = 5f;
+    public float dashMultiplier = 2f;
 
     private Rigidbody2D rb;
     private Vector2 movement;
@@ -27,9 +28,18 @@ public class PlayerController : MonoBehaviour
     // 一定間隔で物理演算の前に呼ばれる
     void FixedUpdate()
     {
-        // Rigidbodyの位置を、入力された方向とスピードに合わせて更新する
-        // Time.fixedDeltaTime を掛けることで、どのPCでも同じ速度で動くようになる
-        rb.MovePosition(rb.position + movement.normalized * moveSpeed * Time.fixedDeltaTime);
+        // 現在の速度を計算する
+        float currentSpeed = moveSpeed;
+
+        // もし左Shiftキーが押されていたら
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            // 現在の速度をダッシュ時の速度にする
+            currentSpeed = moveSpeed * dashMultiplier;
+        }
+
+        // 計算された速度で移動する
+        rb.MovePosition(rb.position + movement.normalized * currentSpeed * Time.fixedDeltaTime);
     }
 
     // このオブジェクトが他のコライダーと衝突した時に呼ばれる関数
