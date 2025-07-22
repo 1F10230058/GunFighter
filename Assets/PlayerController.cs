@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -29,5 +30,16 @@ public class PlayerController : MonoBehaviour
         // Rigidbodyの位置を、入力された方向とスピードに合わせて更新する
         // Time.fixedDeltaTime を掛けることで、どのPCでも同じ速度で動くようになる
         rb.MovePosition(rb.position + movement.normalized * moveSpeed * Time.fixedDeltaTime);
+    }
+
+    // このオブジェクトが他のコライダーと衝突した時に呼ばれる関数
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        // ぶつかった相手のゲームオブジェクトのタグが "Enemy" だったら
+        if (collision.gameObject.tag == "Enemy")
+        {
+            // "Battle" という名前のシーンをロードする
+            SceneManager.LoadScene("Battle");
+        }
     }
 }
