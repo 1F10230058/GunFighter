@@ -34,14 +34,14 @@ public class BattleManager : MonoBehaviour
             // 待機状態（「！」表示前）に押した場合
             if (currentState == BattleState.Waiting)
             {
-                // お手つきで負け
-                EndDuel("早すぎ！");
+                // 負けなので false を渡す
+                EndDuel("早すぎ！", false);
             }
             // 入力受付中に押した場合
             else if (currentState == BattleState.InputReady)
             {
-                // 成功！勝ち
-                EndDuel("勝ち！");
+                // 勝ちなので true を渡す
+                EndDuel("勝ち！", true);
             }
         }
     }
@@ -66,27 +66,39 @@ public class BattleManager : MonoBehaviour
         // 5. この時点でまだ勝敗が決まっていなければ（プレイヤーが入力していなければ）
         if (currentState == BattleState.InputReady)
         {
-            // 時間切れで負け
-            EndDuel("遅すぎ！");
+            // 負けなので false を渡す
+            EndDuel("遅すぎ！", false);
         }
     }
 
-    // 勝敗が決まった時の処理
-    void EndDuel(string resultMessage)
+    // 勝敗をboolで受け取るように変更
+    void EndDuel(string resultMessage, bool isWin)
     {
-        // 状態を「終了」にして、それ以上キー入力が反応しないようにする
         currentState = BattleState.Finished;
-
-        // 結果を表示
         signalText.text = resultMessage;
 
-        // 2秒後にシーンを切り替える（勝っても負けてもとりあえずFieldに戻る）
-        // ここは後で、負けたらGameOverに行くように変更します。
-        Invoke("ReturnToField", 2f);
+        // もし勝ちなら
+        if (isWin)
+        {
+            // 2秒後にフィールドへ
+            Invoke("ReturnToField", 2f);
+        }
+        // 負けなら
+        else
+        {
+            // 2秒後にゲームオーバーへ
+            Invoke("GoToGameOver", 2f);
+        }
     }
 
     void ReturnToField()
     {
         SceneManager.LoadScene("Field");
+    }
+
+    // ゲームオーバーシーンに移動する関数を追加
+    void GoToGameOver()
+    {
+        SceneManager.LoadScene("GameOver");
     }
 }
