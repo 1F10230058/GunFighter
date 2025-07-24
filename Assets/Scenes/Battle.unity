@@ -221,6 +221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   signalText: {fileID: 1516304291}
+  enemyReactionTime: 0.5
 --- !u!4 &1200268743
 Transform:
   m_ObjectHideFlags: 0
@@ -276,8 +277,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Ready...
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 86334dd96071b0d4a92d9b278e861f80, type: 2}
+  m_sharedMaterial: {fileID: 4160726099455055326, guid: 86334dd96071b0d4a92d9b278e861f80, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
