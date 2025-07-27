@@ -44,12 +44,17 @@ public class PlayerController : MonoBehaviour
 
     // このオブジェクトが他のコライダーと衝突した時に呼ばれる関数
     private void OnCollisionEnter2D(Collision2D collision)
+{
+    if (collision.gameObject.tag == "Enemy")
     {
-        // ぶつかった相手のゲームオブジェクトのタグが "Enemy" だったら
-        if (collision.gameObject.tag == "Enemy")
-        {
-            // "Battle" という名前のシーンをロードする
-            SceneManager.LoadScene("Battle");
-        }
+        // 接触した敵からSpriteRendererコンポーネントを取得
+        SpriteRenderer enemySpriteRenderer = collision.gameObject.GetComponent<SpriteRenderer>();
+
+        // 取得したスプライトを、データの保管庫に保存
+        GameData.currentEnemySprite = enemySpriteRenderer.sprite;
+
+        // 戦闘シーンをロードする
+        SceneManager.LoadScene("Battle");
     }
+}
 }
