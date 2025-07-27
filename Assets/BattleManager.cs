@@ -9,6 +9,9 @@ public class BattleManager : MonoBehaviour
     // 敵が「！」に反応するまでの時間（秒）
     public float enemyReactionTime = 0.5f;
 
+    // 敵の画像を表示するためのSpriteRendererをアタッチする欄
+    public SpriteRenderer enemyDisplay;
+
     // ゲームの状態を管理するための「状態変数」
     private BattleState currentState;
 
@@ -22,6 +25,10 @@ public class BattleManager : MonoBehaviour
 
     void Start()
     {
+        if (GameData.currentEnemySprite != null)
+        {
+            enemyDisplay.sprite = GameData.currentEnemySprite;
+        }
         StartCoroutine(StartDuel());
     }
 
