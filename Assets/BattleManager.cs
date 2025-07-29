@@ -12,6 +12,8 @@ public class BattleManager : MonoBehaviour
     // 敵の画像を表示するためのSpriteRendererをアタッチする欄
     public SpriteRenderer enemyDisplay;
 
+    public SpriteRenderer playerDisplay;
+
     // ゲームの状態を管理するための「状態変数」
     private BattleState currentState;
 
@@ -25,6 +27,10 @@ public class BattleManager : MonoBehaviour
 
     void Start()
     {
+        if (GameData.currentPlayerSprite != null)
+        {
+            playerDisplay.sprite = GameData.currentPlayerSprite;
+        }
         if (GameData.currentEnemySprite != null)
         {
             enemyDisplay.sprite = GameData.currentEnemySprite;
