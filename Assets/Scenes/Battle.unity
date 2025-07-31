@@ -324,7 +324,7 @@ MonoBehaviour:
   signalText: {fileID: 1516304291}
   enemyReactionTime: 0.5
   enemyDisplay: {fileID: 1029646728}
-  playerDisplay: {fileID: 0}
+  playerDisplay: {fileID: 1861048744}
 --- !u!4 &1200268743
 Transform:
   m_ObjectHideFlags: 0
