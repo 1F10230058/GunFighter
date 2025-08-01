@@ -27,14 +27,33 @@ public class BattleManager : MonoBehaviour
 
     void Start()
     {
+        // プレイヤーの表示位置を設定 (画面中央から少し左)
+        if (playerDisplay != null)
+        {
+            Vector3 playerPos = Vector3.zero;
+            playerPos.x = -3f; // 左に移動 (この値で見え方を調整)
+            playerDisplay.transform.position = playerPos;
+        }
+
+        // 敵の表示位置を設定 (画面中央から少し右)
+        if (enemyDisplay != null)
+        {
+            Vector3 enemyPos = Vector3.zero;
+            enemyPos.x = 3f; // 右に移動 (この値で見え方を調整)
+            enemyDisplay.transform.position = enemyPos;
+        }
+
+        // スプライトをセット
         if (GameData.currentPlayerSprite != null)
         {
             playerDisplay.sprite = GameData.currentPlayerSprite;
         }
+
         if (GameData.currentEnemySprite != null)
         {
             enemyDisplay.sprite = GameData.currentEnemySprite;
         }
+
         StartCoroutine(StartDuel());
     }
 
