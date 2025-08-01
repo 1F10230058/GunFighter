@@ -14,6 +14,8 @@ public class BattleManager : MonoBehaviour
 
     public SpriteRenderer playerDisplay;
 
+    public float characterScale = 2f; // <<< キャラクターのサイズ倍率
+
     // ゲームの状態を管理するための「状態変数」
     private BattleState currentState;
 
@@ -27,20 +29,22 @@ public class BattleManager : MonoBehaviour
 
     void Start()
     {
-        // プレイヤーの表示位置を設定 (画面中央から少し左)
+        // プレイヤーの表示位置とサイズを設定
         if (playerDisplay != null)
         {
             Vector3 playerPos = Vector3.zero;
-            playerPos.x = -3f; // 左に移動 (この値で見え方を調整)
+            playerPos.x = -4f;
             playerDisplay.transform.position = playerPos;
+            playerDisplay.transform.localScale = new Vector3(characterScale, characterScale, 1f); // <<< サイズ設定を追加
         }
 
-        // 敵の表示位置を設定 (画面中央から少し右)
+        // 敵の表示位置とサイズを設定
         if (enemyDisplay != null)
         {
             Vector3 enemyPos = Vector3.zero;
-            enemyPos.x = 3f; // 右に移動 (この値で見え方を調整)
+            enemyPos.x = 5f;
             enemyDisplay.transform.position = enemyPos;
+            enemyDisplay.transform.localScale = new Vector3(characterScale, characterScale, 1f); // <<< サイズ設定を追加
         }
 
         // スプライトをセット
