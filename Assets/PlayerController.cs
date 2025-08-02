@@ -16,10 +16,16 @@ public class PlayerController : MonoBehaviour
     // ゲーム開始時に一度だけ呼ばれる
     void Start()
     {
-        // このオブジェクトに付いている Rigidbody 2D を取得して rb に保存
-        rb = GetComponent<Rigidbody2D>();
+            // もし戦闘から戻ってきたなら
+        if (GameData.returnedFromBattle)
+        {
+            // 保存しておいた位置に戻す
+            transform.position = GameData.playerLastPosition;
+            // フラグをリセットして、次回シーンロード時には実行されないようにする
+            GameData.returnedFromBattle = false;
+        }
 
-        // このオブジェクトに付いている Sprite Renderer から画像を取得し、GameDataに保存
+        rb = GetComponent<Rigidbody2D>();
         GameData.currentPlayerSprite = GetComponent<SpriteRenderer>().sprite;
     }
 
@@ -54,17 +60,28 @@ public class PlayerController : MonoBehaviour
         // ぶつかった相手のタグが "Enemy" だったら
         if (collision.gameObject.tag == "Enemy")
         {
-            // 接触した敵からSpriteRendererコンポーネントを取得
-            SpriteRenderer enemySpriteRenderer = collision.gameObject.GetComponent<SpriteRenderer>();
+            // 自分の位置を保存
+        GameData.playerLastPosition = transform.position;
+        GameData.returnedFromBattle = true;
 
-            // 取得したスプライトを、データの保管庫に保存
-            if (enemySpriteRenderer != null)
-            {
-                GameData.currentEnemySprite = enemySpriteRenderer.sprite;
-            }
+        // 接触した敵のIDを取得して保存
+        EnemyController enemy = collision.gameObject.GetComponent<EnemyController>();
+        if (enemy != null)
+        {
+            GameData.currentEnemyId = enemy.enemyId;
+            Debug.Log("戦闘開始！ 相手のID: " + GameData.currentEnemyId);
+        }
 
-            // 戦闘シーンをロードする
-            SceneManager.LoadScene("Battle");
+        // 敵のスプライトを保存
+        SpriteRenderer enemySpriteRenderer = collision.gameObject.GetComponent<SpriteRenderer>();
+        if (enemySpriteRenderer != null)
+        {
+            GameData.currentEnemySprite = enemySpriteRenderer.sprite;
+        }
+
+        // 戦闘シーンをロード
+        SceneManager.LoadScene("Battle");
+
         }
     }
 }

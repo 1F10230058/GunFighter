@@ -201,7 +201,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1029646729}
   - component: {fileID: 1029646728}
-  - component: {fileID: 1029646727}
   m_Layer: 0
   m_Name: EnemyDisplay
   m_TagString: Untagged
@@ -209,22 +208,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1029646727
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1029646726}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12ce62ee3c668174f851258014ecda79, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  signalText: {fileID: 0}
-  enemyReactionTime: 0.5
-  enemyDisplay: {fileID: 1029646728}
-  playerDisplay: {fileID: 1861048744}
 --- !u!212 &1029646728
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -325,6 +308,7 @@ MonoBehaviour:
   enemyReactionTime: 0.5
   enemyDisplay: {fileID: 1029646728}
   playerDisplay: {fileID: 1861048744}
+  characterScale: 2
 --- !u!4 &1200268743
 Transform:
   m_ObjectHideFlags: 0

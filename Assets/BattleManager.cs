@@ -113,16 +113,21 @@ public class BattleManager : MonoBehaviour
         currentState = BattleState.Finished;
         signalText.text = resultMessage;
 
-        // もし勝ちなら
         if (isWin)
         {
-            // 2秒後にフィールドへ
+            // --- ここから変更 ---
+            // 倒した敵のIDをリストに追加
+            if (!string.IsNullOrEmpty(GameData.currentEnemyId))
+            {
+                GameData.defeatedEnemyIds.Add(GameData.currentEnemyId);
+                Debug.Log(GameData.currentEnemyId + " を討伐済みリストに追加しました。");
+            }
+            // --- ここまで変更 ---
+
             Invoke("ReturnToField", 2f);
         }
-        // 負けなら
         else
         {
-            // 2秒後にゲームオーバーへ
             Invoke("GoToGameOver", 2f);
         }
     }
