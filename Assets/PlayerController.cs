@@ -12,10 +12,13 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     // 入力方向を覚えておく変数
     private Vector2 movement;
+    private FieldManager fieldManager;
 
     // ゲーム開始時に一度だけ呼ばれる
     void Start()
     {
+        // シーン内にあるFieldManagerを探して、変数に保存しておく
+        fieldManager = FindObjectOfType<FieldManager>();
             // もし戦闘から戻ってきたなら
         if (GameData.returnedFromBattle)
         {
@@ -50,8 +53,18 @@ public class PlayerController : MonoBehaviour
             currentSpeed = moveSpeed * dashMultiplier;
         }
 
-        // 計算された速度で移動する
-        rb.MovePosition(rb.position + movement.normalized * currentSpeed * Time.fixedDeltaTime);
+        // 1. 次に移動する先の座標を計算する
+        Vector2 nextPosition = rb.position + movement.normalized * currentSpeed * Time.fixedDeltaTime;
+
+        // 2. X座標とY座標を、境界線の範囲内に制限（クランプ）する
+        if (fieldManager != null)
+        {
+            nextPosition.x = Mathf.Clamp(nextPosition.x, fieldManager.topLeftBoundary.position.x, fieldManager.bottomRightBoundary.position.x);
+            nextPosition.y = Mathf.Clamp(nextPosition.y, fieldManager.bottomRightBoundary.position.y, fieldManager.topLeftBoundary.position.y);
+        }
+
+        // 3. 制限された座標に向かって移動する
+        rb.MovePosition(nextPosition);
     }
 
     // 他のコライダーと衝突した時に呼ばれる
