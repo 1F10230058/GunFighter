@@ -14,12 +14,11 @@ public class FieldManager : MonoBehaviour
 
     void Start()
     {
-        // --- ここから追加 ---
-        SpawnEnemies();
-        // --- ここまで追加 ---
-
-        // 討伐済みの敵を探して消す処理（これは残しておく）
+        // 1. まず、討伐済みの敵をシーンから消す
         DestroyDefeatedEnemies();
+
+        // 2. その後で、足りない分の敵を新しくスポーンさせる
+        SpawnEnemies();
     }
 
     void DestroyDefeatedEnemies()
