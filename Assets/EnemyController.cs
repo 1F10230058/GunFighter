@@ -3,10 +3,11 @@ using System.Collections; // コルーチンを使うために必要
 
 public class EnemyController : MonoBehaviour
 {
-    public string enemyId;
+    [Header("ドロップ設定")]
+    public int moneyDropAmount = 10; // この敵を倒した時にもらえるお金
 
-    // --- ここからAI用の設定を追加 ---
     [Header("AI設定")]
+    public string enemyId;
     public float moveSpeed = 1f; // 移動スピード
     public float minWaitTime = 1f; // 待機時間の最小値
     public float maxWaitTime = 3f; // 待機時間の最大値
@@ -15,7 +16,6 @@ public class EnemyController : MonoBehaviour
     private Rigidbody2D rb;
     private Vector2 targetPosition; // 次の目的地
     private bool isMoving = false; // 現在移動中かどうかのフラグ
-    // --- ここまで追加 ---
 
 
     void Awake()
@@ -26,7 +26,6 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    // --- ここから新しい関数を追加 ---
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -70,5 +69,4 @@ public class EnemyController : MonoBehaviour
             yield return new WaitForSeconds(waitTime);
         }
     }
-    // --- ここまで追加 ---
 }
