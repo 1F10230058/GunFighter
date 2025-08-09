@@ -115,14 +115,17 @@ public class BattleManager : MonoBehaviour
 
         if (isWin)
         {
-            // --- ここから変更 ---
-            // 倒した敵のIDをリストに追加
-            if (!string.IsNullOrEmpty(GameData.currentEnemyId))
-            {
-                GameData.defeatedEnemyIds.Add(GameData.currentEnemyId);
-                Debug.Log(GameData.currentEnemyId + " を討伐済みリストに追加しました。");
-            }
-            // --- ここまで変更 ---
+            // 1. 倒した敵のIDをリストに追加
+        if (!string.IsNullOrEmpty(GameData.currentEnemyId))
+        {
+            GameData.defeatedEnemyIds.Add(GameData.currentEnemyId);
+        }
+
+        // 2. お金を追加する（GameDataに保存しておいた敵の情報を利用）
+        if (GameData.currentEnemyDropAmount > 0)
+        {
+            PlayerWallet.AddMoney(GameData.currentEnemyDropAmount);
+        }
 
             Invoke("ReturnToField", 2f);
         }

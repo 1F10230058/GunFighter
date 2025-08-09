@@ -10,6 +10,7 @@ public static class GameData
     public static bool returnedFromBattle = false;
 
     public static string currentEnemyId;
-    
+
     public static List<string> defeatedEnemyIds = new List<string>();
+    public static int currentEnemyDropAmount;
 }

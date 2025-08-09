@@ -82,7 +82,8 @@ public class PlayerController : MonoBehaviour
         if (enemy != null)
         {
             GameData.currentEnemyId = enemy.enemyId;
-            Debug.Log("戦闘開始！ 相手のID: " + GameData.currentEnemyId);
+            GameData.currentEnemyDropAmount = enemy.moneyDropAmount;
+            Debug.Log("【戦闘開始】このIDの敵と戦います: " + GameData.currentEnemyId);
         }
 
         // 敵のスプライトを保存
