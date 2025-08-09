@@ -16,6 +16,7 @@ public class EnemyController : MonoBehaviour
     private Rigidbody2D rb;
     private Vector2 targetPosition; // 次の目的地
     private bool isMoving = false; // 現在移動中かどうかのフラグ
+    private FieldManager fieldManager;
 
 
     void Awake()
@@ -29,6 +30,8 @@ public class EnemyController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        // シーン内にあるFieldManagerを探して、変数に保存しておく
+        fieldManager = FindObjectOfType<FieldManager>();
         // AIの行動を開始する
         StartCoroutine(WanderAI());
     }
@@ -55,10 +58,20 @@ public class EnemyController : MonoBehaviour
         // このループを無限に繰り返す
         while (true)
         {
-            // 1. 新しい目的地を決める
+            // 1. 次の目的地の候補を計算する
             float randomX = Random.Range(-moveDistance, moveDistance);
             float randomY = Random.Range(-moveDistance, moveDistance);
-            targetPosition = rb.position + new Vector2(randomX, randomY);
+            Vector2 potentialPosition = rb.position + new Vector2(randomX, randomY);
+
+            // 2. もしFieldManagerが見つかっていれば、座標を境界線の範囲内に制限する
+            if (fieldManager != null)
+            {
+                potentialPosition.x = Mathf.Clamp(potentialPosition.x, fieldManager.topLeftBoundary.position.x, fieldManager.bottomRightBoundary.position.x);
+                potentialPosition.y = Mathf.Clamp(potentialPosition.y, fieldManager.bottomRightBoundary.position.y, fieldManager.topLeftBoundary.position.y);
+            }
+
+            // 3. 制限された座標を最終的な目的地として設定する
+            targetPosition = potentialPosition;
             isMoving = true;
 
             // 2. 目的地に到着するまで待つ（isMovingがfalseになるまで）
