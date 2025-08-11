@@ -36,4 +36,22 @@ public static class PlayerWallet
         // 保存されているデータを読み込む（なければ0）
         CurrentMoney = PlayerPrefs.GetInt(MONEY_KEY, 0);
     }
+
+    public static bool TrySpendMoney(int amount)
+{
+    if (CurrentMoney >= amount)
+    {
+        // お金が足りる場合
+        CurrentMoney -= amount;
+        SaveMoney();
+        Debug.Log(amount + "Gを支払った。残り: " + CurrentMoney + "G");
+        return true; // 購入成功
+    }
+    else
+    {
+        // お金が足りない場合
+        Debug.Log("お金が足りません！");
+        return false; // 購入失敗
+    }
+}
 }
