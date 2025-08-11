@@ -69,7 +69,7 @@ public class UIManager : MonoBehaviour
         {
             // ボタンを押せなくして、テキストを「売り切れ」にする
             buyJewelButton.interactable = false;
-            buyJewelButton.GetComponentInChildren<TextMeshProUGUI>().text = "売り切れ";
+            buyJewelButton.GetComponentInChildren<TextMeshProUGUI>().text = "Sold out!";
         }
     }
 }
