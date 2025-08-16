@@ -10,11 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6cd904c7ee13fa84aac8ce3a72f70715, type: 3}
-  m_Name: NewEnemyType 1
+  m_Name: NewEnemyType 2
   m_EditorClassIdentifier: 
-  enemyName: 
-  sprite: {fileID: 0}
+  enemyName: Robot
+  sprite: {fileID: 21300000, guid: 452ee21746c1d314582f960091579886, type: 3}
   moneyDropAmount: 10
-  moveSpeed: 1
+  moveSpeed: 3
   reactionTime: 0.5
   usesFeint: 0
+  requiredWins: 1

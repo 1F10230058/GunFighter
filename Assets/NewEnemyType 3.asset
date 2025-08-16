@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6cd904c7ee13fa84aac8ce3a72f70715, type: 3}
-  m_Name: NewEnemyType
+  m_Name: NewEnemyType 3
   m_EditorClassIdentifier: 
   enemyName: 
   sprite: {fileID: 0}
@@ -18,3 +18,4 @@ MonoBehaviour:
   moveSpeed: 1
   reactionTime: 0.5
   usesFeint: 0
+  requiredWins: 1
