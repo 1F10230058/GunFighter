@@ -7,6 +7,7 @@ public static class GameData
     public static Sprite currentPlayerSprite;
 
     public static Vector3 playerLastPosition;
+    public static bool currentEnemyUsesFeint;
     public static bool returnedFromBattle = false;
 
     public static string currentEnemyId;

@@ -16,6 +16,8 @@ public class BattleManager : MonoBehaviour
 
     public float characterScale = 2f; // <<< キャラクターのサイズ倍率
 
+    public static bool currentEnemyUsesFeint;
+
     // ゲームの状態を管理するための「状態変数」
     private BattleState currentState;
 
@@ -83,29 +85,39 @@ public class BattleManager : MonoBehaviour
     }
 
     IEnumerator StartDuel()
+{
+    currentState = BattleState.Waiting;
+    signalText.text = "Ready...";
+    yield return new WaitForSeconds(1f); // Ready...を1秒表示
+
+    // --- ここからフェイント処理 ---
+    // もし、今の敵がフェイントを使うなら
+    if (GameData.currentEnemyUsesFeint)
     {
-        // 1. 状態を「待機中」に設定
-        currentState = BattleState.Waiting;
-        signalText.text = "Ready...";
-
-        // 2. ランダムな時間だけ待つ
-        float randomWaitTime = Random.Range(2.0f, 5.0f);
-        yield return new WaitForSeconds(randomWaitTime);
-
-        // 3. 状態を「入力受付中」にして、合図を表示
-        currentState = BattleState.InputReady;
-        signalText.text = "！";
-
-        // 4. 敵の反応時間後に「遅すぎ！」の判定を行う
-        yield return new WaitForSeconds(enemyReactionTime);
-
-        // 5. この時点でまだ勝敗が決まっていなければ（プレイヤーが入力していなければ）
-        if (currentState == BattleState.InputReady)
-        {
-            // 負けなので false を渡す
-            EndDuel("遅すぎ！", false);
-        }
+        // 0.5秒から1.5秒、ランダムな時間待つ
+        yield return new WaitForSeconds(Random.Range(0.5f, 1.5f));
+        // 「？」を表示する
+        signalText.text = "？";
+        // 0.5秒から1.5秒、ランダムな時間待つ
+        yield return new WaitForSeconds(Random.Range(0.5f, 1.5f));
     }
+    // --- ここまでフェイント処理 ---
+
+    // 通常の「！」までの待機
+    float randomWaitTime = Random.Range(0.5f, 2.0f);
+    yield return new WaitForSeconds(randomWaitTime);
+
+    currentState = BattleState.InputReady;
+    signalText.text = "！";
+
+    // 敵の反応時間も設計図から読み込むように変更
+    yield return new WaitForSeconds(GameData.currentEnemyReactionTime); // ※
+
+    if (currentState == BattleState.InputReady)
+    {
+        EndDuel("遅すぎ！", false);
+    }
+}
 
     // 勝敗をboolで受け取るように変更
     void EndDuel(string resultMessage, bool isWin)
