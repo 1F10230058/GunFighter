@@ -79,12 +79,14 @@ public class PlayerController : MonoBehaviour
 
         // 接触した敵のIDを取得して保存
         EnemyController enemy = collision.gameObject.GetComponent<EnemyController>();
-        if (enemy != null)
+        if (enemy != null && enemy.enemyType != null)
         {
             GameData.currentEnemyId = enemy.enemyId;
+            // enemyTypeを通して、正しいデータにアクセスする
             GameData.currentEnemySprite = enemy.enemyType.sprite;
-            GameData.currentEnemyDropAmount = enemy.moneyDropAmount;
+            GameData.currentEnemyDropAmount = enemy.enemyType.moneyDropAmount;
             GameData.currentEnemyUsesFeint = enemy.enemyType.usesFeint;
+            GameData.currentEnemyReactionTime = enemy.enemyType.reactionTime;
             Debug.Log("【戦闘開始】このIDの敵と戦います: " + GameData.currentEnemyId);
         }
 

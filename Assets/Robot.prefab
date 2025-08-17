@@ -144,12 +144,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5ad6f7cb9f79c34b9872dc5675fe930, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moneyDropAmount: 300
+  enemyType: {fileID: 11400000, guid: e2242bc0fd7258e4780b8a1eaf838da3, type: 2}
   enemyId: 
-  moveSpeed: 2
-  minWaitTime: 1
-  maxWaitTime: 3
-  moveDistance: 3
 --- !u!50 &-4526218453002037568
 Rigidbody2D:
   serializedVersion: 4
