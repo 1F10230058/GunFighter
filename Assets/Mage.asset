@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6cd904c7ee13fa84aac8ce3a72f70715, type: 3}
-  m_Name: NewEnemyType 3
+  m_Name: Mage
   m_EditorClassIdentifier: 
-  enemyName: 
+  enemyName: Mage
   sprite: {fileID: 0}
   moneyDropAmount: 10
-  moveSpeed: 1
+  moveSpeed: 3
   reactionTime: 0.5
-  usesFeint: 0
+  usesFeint: 1
   requiredWins: 1

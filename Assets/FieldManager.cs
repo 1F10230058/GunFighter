@@ -3,13 +3,13 @@ using System.Collections.Generic; // Listを使うために必要
 
 public class FieldManager : MonoBehaviour
 {
-    // --- ここから追加 ---
     [Header("敵のスポーン設定")]
-    public GameObject enemyPrefab; // 敵のプレハブをセットする
-    public int numberOfEnemies = 5; // スポーンさせたい敵の数
-    public Transform topLeftBoundary; // スポーン範囲の左上
-    public Transform bottomRightBoundary; // スポーン範囲の右下
-    // --- ここまで追加 ---
+    // --- ここを変更 ---
+    public List<GameObject> enemyPrefabs; // 複数のプレハブをセットできるリストに変更
+    // --- 変更ここまで ---
+    public int numberOfEnemies = 5;
+    public Transform topLeftBoundary;
+    public Transform bottomRightBoundary;
 
 
     void Start()
@@ -36,25 +36,32 @@ public class FieldManager : MonoBehaviour
         }
     }
 
-    // --- ここから追加 ---
     void SpawnEnemies()
     {
-        // 現在の敵の数を数える
         int currentEnemyCount = FindObjectsOfType<EnemyController>().Length;
-        // 倒した敵の分だけ補充する
         int enemiesToSpawn = numberOfEnemies - currentEnemyCount;
+
+        // --- enemyPrefabsリストが空でないことを確認 ---
+        if (enemyPrefabs.Count == 0)
+        {
+            Debug.LogError("Enemy Prefabsのリストが空です！");
+            return;
+        }
+        // --- 確認ここまで ---
 
         for (int i = 0; i < enemiesToSpawn; i++)
         {
-            // 設定した範囲内でランダムな座標を計算
             float spawnX = Random.Range(topLeftBoundary.position.x, bottomRightBoundary.position.x);
-            float spawnY = Random.Range(bottomRightBoundary.position.y, topLeftBoundary.position.y); // Y座標はminとmaxが逆
+            float spawnY = Random.Range(bottomRightBoundary.position.y, topLeftBoundary.position.y);
 
             Vector3 spawnPosition = new Vector3(spawnX, spawnY, 0);
 
-            // 敵プレハブを、計算した座標に生成する
-            Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+            // --- ここを変更 ---
+            // リストの中からランダムに1つプレハブを選ぶ
+            GameObject prefabToSpawn = enemyPrefabs[Random.Range(0, enemyPrefabs.Count)];
+            // 選んだプレハブを生成する
+            Instantiate(prefabToSpawn, spawnPosition, Quaternion.identity);
+            // --- 変更ここまで ---
         }
     }
-    // --- ここまで追加 ---
 }
