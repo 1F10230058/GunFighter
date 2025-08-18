@@ -27076,7 +27076,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 746e43f78cbcfa343b7bb5f50d853c05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 8826262377511696989, guid: dee64df5d0d0ed547b7aedc53e405414, type: 3}
+  enemyPrefabs:
+  - {fileID: 8826262377511696989, guid: dee64df5d0d0ed547b7aedc53e405414, type: 3}
+  - {fileID: 8826262377511696989, guid: a300991e02cd6054ebaf596f0235d27f, type: 3}
   numberOfEnemies: 5
   topLeftBoundary: {fileID: 626209195}
   bottomRightBoundary: {fileID: 1922739756}
