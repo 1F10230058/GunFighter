@@ -97,7 +97,7 @@ public class BattleManager : MonoBehaviour
         // 0.5秒から1.5秒、ランダムな時間待つ
         yield return new WaitForSeconds(Random.Range(0.5f, 1.5f));
         // 「？」を表示する
-        signalText.text = "？";
+        signalText.text = "?";
         // 0.5秒から1.5秒、ランダムな時間待つ
         yield return new WaitForSeconds(Random.Range(0.5f, 1.5f));
     }
