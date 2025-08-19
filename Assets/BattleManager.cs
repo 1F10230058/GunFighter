@@ -69,12 +69,20 @@ public class BattleManager : MonoBehaviour
         // もしスペースキーが押されたら
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            // 待機状態（「！」表示前）に押した場合
             if (currentState == BattleState.Waiting)
+        {
+            // もし、画面の文字が「？」の時にキーを押してしまったら
+            if (signalText.text == "?")
             {
-                // 負けなので false を渡す
+                // フェイントに引っかかった専用のメッセージで負けにする
                 EndDuel("早すぎ！", false);
             }
+            else
+            {
+                // それ以外のタイミングなら、通常の「早すぎ！」で負けにする
+                EndDuel("早すぎ！", false);
+            }
+        }
             // 入力受付中に押した場合
             else if (currentState == BattleState.InputReady)
             {
