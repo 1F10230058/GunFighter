@@ -87,6 +87,7 @@ public class PlayerController : MonoBehaviour
             GameData.currentEnemyDropAmount = enemy.enemyType.moneyDropAmount;
             GameData.currentEnemyUsesFeint = enemy.enemyType.usesFeint;
             GameData.currentEnemyReactionTime = enemy.enemyType.reactionTime;
+            GameData.currentEnemyRequiredWins = enemy.enemyType.requiredWins;
             Debug.Log("【戦闘開始】このIDの敵と戦います: " + GameData.currentEnemyId);
         }
 

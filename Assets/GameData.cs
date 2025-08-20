@@ -12,6 +12,7 @@ public static class GameData
     public static int currentEnemyDropAmount;
     public static float currentEnemyReactionTime;
     public static bool currentEnemyUsesFeint;
+    public static int currentEnemyRequiredWins = 1;
 
     // --- プレイヤーの状態 ---
     public static Vector3 playerLastPosition;
