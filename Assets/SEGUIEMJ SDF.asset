@@ -91,21 +91,6 @@ MonoBehaviour:
     m_StrikethroughThickness: 55.606934
     m_TabWidth: 262
   m_GlyphTable:
-  - m_Index: 3
-    m_Metrics:
-      m_Width: 0
-      m_Height: 0
-      m_HorizontalBearingX: 0
-      m_HorizontalBearingY: 0
-      m_HorizontalAdvance: 262.14062
-    m_GlyphRect:
-      m_X: 0
-      m_Y: 0
-      m_Width: 0
-      m_Height: 0
-    m_Scale: 1
-    m_AtlasIndex: 0
-    m_ClassDefinitionType: 0
   - m_Index: 29
     m_Metrics:
       m_Width: 104.671875
@@ -122,10 +107,6 @@ MonoBehaviour:
     m_AtlasIndex: 0
     m_ClassDefinitionType: 0
   m_CharacterTable:
-  - m_ElementType: 1
-    m_Unicode: 32
-    m_GlyphIndex: 3
-    m_Scale: 1
   - m_ElementType: 1
     m_Unicode: 58
     m_GlyphIndex: 29
@@ -189,7 +170,7 @@ MonoBehaviour:
     atlasWidth: 512
     atlasHeight: 512
     characterSetSelectionMode: 7
-    characterSequence: " :\u3042\u304E\u3059\u305F\u3061\u306A\u306E\u3078\u308B\u30A2\u30A4\u30AA\u30B2\u30B3\u30B9\u30BF\u30C8\u30CF\u30D0\u30E0\u30EB\u30FC\u4E86\u4F5C\u52DD\u623B\u64CD\u65B9\u65E9\u6CD5\u7D42\u8A18\u9045\u9332\uFF01\u6483"
+    characterSequence: ":\u3042\u304E\u3059\u305F\u3061\u306A\u306E\u3078\u308B\u30A2\u30A4\u30AA\u30B2\u30B3\u30B9\u30BF\u30C8\u30CF\u30D0\u30E0\u30EB\u30FC\u4E86\u4F5C\u52DD\u623B\u64CD\u65B9\u65E9\u6CD5\u7D42\u8A18\u9045\u9332\uFF01\u6483\uFF1F\u30D5\u30A7\u30A4\u30F3\u30C8"
     referencedFontAssetGUID: 86334dd96071b0d4a92d9b278e861f80
     referencedTextAssetGUID: 
     fontStyle: 0

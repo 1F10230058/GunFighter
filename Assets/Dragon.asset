@@ -16,6 +16,6 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: 27d4b9b21a67185408159a9de3648113, type: 3}
   moneyDropAmount: 500
   moveSpeed: 0
-  reactionTime: 0.2
+  reactionTime: 0.3
   usesFeint: 1
   requiredWins: 5

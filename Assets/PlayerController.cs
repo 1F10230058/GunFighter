@@ -70,8 +70,8 @@ public class PlayerController : MonoBehaviour
     // 他のコライダーと衝突した時に呼ばれる
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // ぶつかった相手のタグが "Enemy" だったら
-        if (collision.gameObject.tag == "Enemy")
+        // ぶつかった相手のタグ
+        if (collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "Boss")
         {
             // 自分の位置を保存
         GameData.playerLastPosition = transform.position;

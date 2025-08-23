@@ -10,12 +10,17 @@ public class FieldManager : MonoBehaviour
     public int numberOfEnemies = 5;
     public Transform topLeftBoundary;
     public Transform bottomRightBoundary;
+    [Header("ボスのスポーン設定")]
+    public GameObject bossPrefab; // Dragonプレハブをセットする
+    public Transform bossSpawnPoint; // 出現場所をセットする
 
 
     void Start()
     {
         // 1. まず、討伐済みの敵をシーンから消す
         DestroyDefeatedEnemies();
+        // 2. ボス出現の条件をチェックして、必要なら出現させる
+        SpawnBossIfNeeded();
 
         // 2. その後で、足りない分の敵を新しくスポーンさせる
         SpawnEnemies();
@@ -33,6 +38,22 @@ public class FieldManager : MonoBehaviour
             {
                 Destroy(enemy.gameObject);
             }
+        }
+    }
+
+    void SpawnBossIfNeeded()
+    {
+        // 宝玉を買ったかどうかのセーブデータ名
+        const string JEWEL_KEY = "HasJewel";
+        // ボスの固定ID
+        const string BOSS_ID = "BOSS_DRAGON_01";
+
+        // もし宝玉を持っていて、かつ、まだボスを倒していなければ
+        if (PlayerPrefs.GetInt(JEWEL_KEY, 0) == 1 && !GameData.defeatedEnemyIds.Contains(BOSS_ID))
+        {
+            // ボスを出現させる
+            Instantiate(bossPrefab, bossSpawnPoint.position, Quaternion.identity);
+            Debug.Log("ドラゴンが降臨した！");
         }
     }
 

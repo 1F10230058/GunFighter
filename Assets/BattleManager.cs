@@ -49,9 +49,9 @@ public class BattleManager : MonoBehaviour
         {
             if (currentState == BattleState.Waiting)
             {
-                if (signalText.text == "？")
+                if (signalText.text == "?")
                 {
-                    EndDuel("フェイントだ！", false);
+                    EndDuel("早すぎ！", false);
                 }
                 else
                 {
@@ -104,7 +104,7 @@ public class BattleManager : MonoBehaviour
         if (GameData.currentEnemyUsesFeint)
         {
             yield return new WaitForSeconds(Random.Range(0.5f, 1.5f));
-            signalText.text = "？";
+            signalText.text = "?";
             yield return new WaitForSeconds(Random.Range(0.5f, 1.5f));
         }
 
