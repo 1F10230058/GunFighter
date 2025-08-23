@@ -102,11 +102,18 @@ public class BattleManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
         if (GameData.currentEnemyUsesFeint)
+    {
+        // 50%の確率でフェイントを実行する
+        if (Random.value < 0.5f) 
         {
+            // 0.5秒から1.5秒、ランダムな時間待つ
             yield return new WaitForSeconds(Random.Range(0.5f, 1.5f));
+            // 「?」を表示する
             signalText.text = "?";
+            // 0.5秒から1.5秒、ランダムな時間待つ
             yield return new WaitForSeconds(Random.Range(0.5f, 1.5f));
         }
+    }
 
         float randomWaitTime = Random.Range(0.5f, 2.0f);
         yield return new WaitForSeconds(randomWaitTime);
