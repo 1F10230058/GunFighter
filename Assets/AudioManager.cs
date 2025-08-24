@@ -2,58 +2,66 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    // この AudioManager をどこからでも呼び出せるようにするための「印」
     public static AudioManager Instance { get; private set; }
 
-    // BGM再生用の AudioSource
     private AudioSource bgmSource;
-    // 効果音再生用の AudioSource
     private AudioSource sfxSource;
 
-    // PlayerPrefsに保存するときのキー
     private const string BGM_VOLUME_KEY = "BGMVolume";
     private const string SFX_VOLUME_KEY = "SFXVolume";
 
-    // ゲームが起動した時に一度だけ呼ばれる
+    // --- ここから追加 ---
+    [Header("最大音量設定")]
+    [Range(0f, 1f)] // Inspectorで0から1のスライダーになる
+    public float maxBgmVolume = 0.5f; // BGMの最大音量を50%に設定
+    // --- ここまで追加 ---
+
     void Awake()
     {
-        // もし他に AudioManager が存在しなければ、自分を「印」として設定
         if (Instance == null)
         {
             Instance = this;
-            // シーンを切り替えてもこのオブジェクトが破壊されないようにする
             DontDestroyOnLoad(gameObject);
 
-            // AudioSourceコンポーネントを2つ追加して、それぞれ設定
             bgmSource = gameObject.AddComponent<AudioSource>();
-            bgmSource.loop = true; // BGMはループ再生する
+            bgmSource.loop = true;
             sfxSource = gameObject.AddComponent<AudioSource>();
+
+            // 保存されたスライダーの位置をロード（なければ初期値1）
+            float bgmSliderValue = PlayerPrefs.GetFloat(BGM_VOLUME_KEY, 1f);
+            float sfxVolume = PlayerPrefs.GetFloat(SFX_VOLUME_KEY, 1f);
+            // スライダーの位置と最大音量を掛け合わせて適用
+            SetBGMVolume(bgmSliderValue); 
+            SetSFXVolume(sfxVolume);
         }
         else
         {
-            // すでに AudioManager が存在する場合は、自分を破壊する
             Destroy(gameObject);
         }
     }
 
-    // BGMを再生する関数
     public void PlayBGM(AudioClip clip)
     {
+        if (bgmSource.clip == clip) return;
         bgmSource.clip = clip;
         bgmSource.Play();
     }
 
-    // 効果音を再生する関数
     public void PlaySFX(AudioClip clip)
     {
         sfxSource.PlayOneShot(clip);
     }
+
     // BGMの音量を設定する関数
-    public void SetBGMVolume(float volume)
+    public void SetBGMVolume(float sliderValue)
     {
-        bgmSource.volume = volume;
-        // 設定を保存
-        PlayerPrefs.SetFloat(BGM_VOLUME_KEY, volume);
+        // --- ここを変更 ---
+        // スライダーの値(0~1)と、設定した最大音量を掛け合わせる
+        bgmSource.volume = sliderValue * maxBgmVolume;
+        // --- ここまで変更 ---
+
+        // スライダーの位置だけを保存
+        PlayerPrefs.SetFloat(BGM_VOLUME_KEY, sliderValue);
         PlayerPrefs.Save();
     }
 
@@ -61,7 +69,6 @@ public class AudioManager : MonoBehaviour
     public void SetSFXVolume(float volume)
     {
         sfxSource.volume = volume;
-        // 設定を保存
         PlayerPrefs.SetFloat(SFX_VOLUME_KEY, volume);
         PlayerPrefs.Save();
     }
