@@ -62,8 +62,8 @@ public class BattleManager : MonoBehaviour
         {
             if (currentState == BattleState.Waiting)
             {
-                if (signalText.text == "?") EndDuel("早すぎ！", false);
-                else EndDuel("早すぎ！", false);
+                if (signalText.text == "?") EndDuel("Too Fast！", false);
+                else EndDuel("Too Fast！", false);
             }
             else if (currentState == BattleState.InputReady)
             {
@@ -85,7 +85,7 @@ public class BattleManager : MonoBehaviour
         }
         // --- 演出ここまで ---
 
-        signalText.text = "勝ち！ (" + currentWins + "/" + GameData.currentEnemyRequiredWins + ")";
+        signalText.text = "Good！";
 
         if (currentWins >= GameData.currentEnemyRequiredWins)
         {
@@ -99,7 +99,7 @@ public class BattleManager : MonoBehaviour
 
     void TriggerFinalWin()
     {
-        EndDuel("討伐成功！", true);
+        EndDuel("VICTORY！", true);
     }
 
     void StartNextRound()
@@ -130,7 +130,7 @@ public class BattleManager : MonoBehaviour
         yield return new WaitForSeconds(GameData.currentEnemyReactionTime);
         if (currentState == BattleState.InputReady)
         {
-            EndDuel("遅すぎ！", false);
+            EndDuel("Too Slow！", false);
         }
     }
 
