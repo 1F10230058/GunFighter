@@ -1,28 +1,30 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI; // Sliderを使うために必要
 using TMPro;
 
 public class BattleManager : MonoBehaviour
 {
+    [Header("UI参照")]
     public TextMeshProUGUI signalText;
+    public Slider enemyHpBar; // <<< HPバー用の変数を追加
+
+    [Header("オブジェクト参照")]
     public SpriteRenderer enemyDisplay;
     public SpriteRenderer playerDisplay;
+    
+    [Header("戦闘設定")]
     public float characterScale = 2f;
 
     private BattleState currentState;
-    private int currentWins = 0; // 現在の勝利数をカウントする変数
+    private int currentWins = 0;
 
-    private enum BattleState
-    {
-        Waiting,
-        InputReady,
-        Finished
-    }
+    private enum BattleState { Waiting, InputReady, Finished }
 
     void Start()
     {
-        // 位置とサイズの設定（変更なし）
+        // 位置とサイズの設定
         if (playerDisplay != null)
         {
             playerDisplay.transform.position = new Vector3(-3f, 0, 0);
@@ -31,72 +33,80 @@ public class BattleManager : MonoBehaviour
         if (enemyDisplay != null)
         {
             enemyDisplay.transform.position = new Vector3(3f, 0, 0);
-                // 敵ごとのサイズ倍率を考慮した最終的な大きさを計算する
             float finalEnemyScale = characterScale * GameData.currentEnemyBattleScaleMultiplier;
             enemyDisplay.transform.localScale = new Vector3(finalEnemyScale, finalEnemyScale, 1f);
         }
 
-        // スプライトの設定（変更なし）
+        // スプライトの設定
         if (GameData.currentPlayerSprite != null) playerDisplay.sprite = GameData.currentPlayerSprite;
         if (GameData.currentEnemySprite != null) enemyDisplay.sprite = GameData.currentEnemySprite;
 
-        // 最初のラウンドを開始
+        // --- HPバーの初期設定を追加 ---
+        if (enemyHpBar != null)
+        {
+            // 条件分岐をなくし、常にHPバーを表示する
+            enemyHpBar.gameObject.SetActive(true);
+            // Sliderの最大値を、必要な勝利数に設定
+            enemyHpBar.maxValue = GameData.currentEnemyRequiredWins;
+            // Sliderの現在の値を、残りHP（必要勝利数 - 現在の勝利数）に設定
+            enemyHpBar.value = GameData.currentEnemyRequiredWins - currentWins;
+        }
+        // --- HPバー設定ここまで ---
+
         StartCoroutine(StartRound());
     }
 
     void Update()
     {
-        // Update内の処理は変更なし
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (currentState == BattleState.Waiting)
             {
-                if (signalText.text == "?")
-                {
-                    EndDuel("早すぎ！", false);
-                }
-                else
-                {
-                    EndDuel("早すぎ！", false);
-                }
+                if (signalText.text == "?") EndDuel("早すぎ！", false);
+                else EndDuel("早すぎ！", false);
             }
             else if (currentState == BattleState.InputReady)
             {
-                // 1ラウンド勝利
                 RoundWin();
             }
         }
     }
 
-    // --- ここからが新しい処理 ---
-    // 1ラウンド勝利した時の処理
     void RoundWin()
     {
-        currentState = BattleState.Finished; // 入力を受け付けなくする
-        currentWins++; // 勝利数を1増やす
-        signalText.text = "勝ち！ (" + currentWins + "/" + GameData.currentEnemyRequiredWins + ")"; // 勝利数を表示
+        currentState = BattleState.Finished;
+        currentWins++;
 
-        // もし、勝利数が規定回数に達したら
+        // --- 勝利時の演出を追加 ---
+        StartCoroutine(ShakeObject(enemyDisplay.transform, 0.2f, 0.1f)); // プレイヤーを揺らす
+        if (enemyHpBar != null)
+        {
+            enemyHpBar.value = GameData.currentEnemyRequiredWins - currentWins; // HPバーを更新
+        }
+        // --- 演出ここまで ---
+        
+        signalText.text = "勝ち！ (" + currentWins + "/" + GameData.currentEnemyRequiredWins + ")";
+
         if (currentWins >= GameData.currentEnemyRequiredWins)
         {
-            // 完全勝利として戦闘を終了する
-            EndDuel("討伐成功！", true);
+            Invoke("TriggerFinalWin", 1f);
         }
         else
         {
-            // まだ規定回数に達していなければ、2秒後に次のラウンドへ
             Invoke("StartNextRound", 2f);
         }
     }
+
+    void TriggerFinalWin()
+    {
+        EndDuel("討伐成功！", true);
+    }
     
-    // 次のラウンドを開始するための関数
     void StartNextRound()
     {
         StartCoroutine(StartRound());
     }
-    // --- ここまでが新しい処理 ---
-
-    // StartDuelの名前をStartRoundに変更
+    
     IEnumerator StartRound()
     {
         currentState = BattleState.Waiting;
@@ -104,74 +114,63 @@ public class BattleManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
         if (GameData.currentEnemyUsesFeint)
-    {
-        // 50%の確率でフェイントを実行する
-        if (Random.value < 0.5f) 
         {
-            // 0.5秒から1.5秒、ランダムな時間待つ
-            yield return new WaitForSeconds(Random.Range(0.5f, 1.5f));
-            // 「?」を表示する
-            signalText.text = "?";
-            // 0.5秒から1.5秒、ランダムな時間待つ
-            yield return new WaitForSeconds(Random.Range(0.5f, 1.5f));
+            if (Random.value < 0.5f)
+            {
+                yield return new WaitForSeconds(Random.Range(0.5f, 1.5f));
+                signalText.text = "?";
+                yield return new WaitForSeconds(Random.Range(0.5f, 1.5f));
+            }
         }
-    }
 
         float randomWaitTime = Random.Range(0.5f, 2.0f);
         yield return new WaitForSeconds(randomWaitTime);
-
         currentState = BattleState.InputReady;
         signalText.text = "！";
-
         yield return new WaitForSeconds(GameData.currentEnemyReactionTime);
-
         if (currentState == BattleState.InputReady)
         {
             EndDuel("遅すぎ！", false);
         }
     }
 
-    // EndDuelの処理を、最終的な戦闘終了の処理に特化させる
     void EndDuel(string resultMessage, bool isWin)
     {
         currentState = BattleState.Finished;
-        // 1. 進行中のタイマー（コルーチン）を全て停止
         StopAllCoroutines();
-        // 2. 「次のラウンドを開始せよ」という予約をキャンセル
         CancelInvoke("StartNextRound");
-
-        // 負けた場合も勝った場合も、最終結果をしっかり表示
         signalText.text = resultMessage;
-        if (!isWin) // 負けた場合はメッセージを上書き
-        {
-            signalText.text = resultMessage;
-        }
-
         if (isWin)
         {
-            if (!string.IsNullOrEmpty(GameData.currentEnemyId))
-            {
-                GameData.defeatedEnemyIds.Add(GameData.currentEnemyId);
-            }
-            if (GameData.currentEnemyDropAmount > 0)
-            {
-                PlayerWallet.AddMoney(GameData.currentEnemyDropAmount);
-            }
+            if (!string.IsNullOrEmpty(GameData.currentEnemyId)) GameData.defeatedEnemyIds.Add(GameData.currentEnemyId);
+            if (GameData.currentEnemyDropAmount > 0) PlayerWallet.AddMoney(GameData.currentEnemyDropAmount);
             Invoke("ReturnToField", 2f);
         }
         else
         {
+            StartCoroutine(ShakeObject(playerDisplay.transform, 0.4f, 0.2f));
             Invoke("GoToGameOver", 3f);
         }
     }
-
-    void ReturnToField()
+    
+    // --- シェイク用のコルーチンを追加 ---
+    IEnumerator ShakeObject(Transform objTransform, float duration, float magnitude)
     {
-        SceneManager.LoadScene("Field");
-    }
+        Vector3 originalPos = objTransform.position;
+        float elapsed = 0.0f;
 
-    void GoToGameOver()
-    {
-        SceneManager.LoadScene("GameOver");
+        while (elapsed < duration)
+        {
+            float x = Random.Range(-1f, 1f) * magnitude;
+            objTransform.position = new Vector3(originalPos.x + x, originalPos.y, originalPos.z);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        objTransform.position = originalPos; // 最後に元の位置に戻す
     }
+    // --- シェイク処理ここまで ---
+
+    void ReturnToField() { SceneManager.LoadScene("Field"); }
+    void GoToGameOver() { SceneManager.LoadScene("GameOver"); }
 }
