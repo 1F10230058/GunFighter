@@ -13,7 +13,7 @@ public class BattleManager : MonoBehaviour
     [Header("オブジェクト参照")]
     public SpriteRenderer enemyDisplay;
     public SpriteRenderer playerDisplay;
-    
+
     [Header("戦闘設定")]
     public float characterScale = 2f;
 
@@ -84,7 +84,7 @@ public class BattleManager : MonoBehaviour
             enemyHpBar.value = GameData.currentEnemyRequiredWins - currentWins; // HPバーを更新
         }
         // --- 演出ここまで ---
-        
+
         signalText.text = "勝ち！ (" + currentWins + "/" + GameData.currentEnemyRequiredWins + ")";
 
         if (currentWins >= GameData.currentEnemyRequiredWins)
@@ -101,12 +101,12 @@ public class BattleManager : MonoBehaviour
     {
         EndDuel("討伐成功！", true);
     }
-    
+
     void StartNextRound()
     {
         StartCoroutine(StartRound());
     }
-    
+
     IEnumerator StartRound()
     {
         currentState = BattleState.Waiting;
@@ -149,10 +149,11 @@ public class BattleManager : MonoBehaviour
         else
         {
             StartCoroutine(ShakeObject(playerDisplay.transform, 0.4f, 0.2f));
-            Invoke("GoToGameOver", 3f);
+            // Invokeをやめて、新しいコルーチンを呼び出す
+            StartCoroutine(FadeToGameOver());
         }
     }
-    
+
     // --- シェイク用のコルーチンを追加 ---
     IEnumerator ShakeObject(Transform objTransform, float duration, float magnitude)
     {
@@ -173,4 +174,29 @@ public class BattleManager : MonoBehaviour
 
     void ReturnToField() { SceneManager.LoadScene("Field"); }
     void GoToGameOver() { SceneManager.LoadScene("GameOver"); }
+    
+    // フェードアウトさせてからゲームオーバーへ移行する処理
+    private IEnumerator FadeToGameOver()
+    {
+        // FadeImageを取得してフェードアウトを開始
+        GameObject fadeImageObject = GameObject.Find("FadeImage");
+        if(fadeImageObject != null)
+        {
+            yield return StartCoroutine(FadeOut(fadeImageObject.GetComponent<CanvasGroup>()));
+        }
+
+        // フェードアウトが終わったらシーンをロード
+        SceneManager.LoadScene("GameOver");
+    }
+
+    // 徐々に暗くするコルーチン
+    private IEnumerator FadeOut(CanvasGroup canvasGroup)
+    {
+        canvasGroup.alpha = 0;
+        while(canvasGroup.alpha < 1)
+        {
+            canvasGroup.alpha += Time.deltaTime;
+            yield return null;
+        }
+    }
 }
