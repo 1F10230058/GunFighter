@@ -1,24 +1,39 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Collections; // コルーチンを使うために必要
+using System.Collections;
 
 public class GameOverManager : MonoBehaviour
 {
-    public CanvasGroup fadeCanvasGroup; // InspectorからFadeImageをセット
+    public CanvasGroup fadeCanvasGroup;
 
-    // シーンが始まった時に一度だけ呼ばれる
     void Start()
     {
-        // フェードインを開始
+        Time.timeScale = 1f;
         StartCoroutine(FadeIn());
     }
 
+    // ボタンに設定されているこの関数を、コルーチンを呼び出すだけの役割に変更
     public void ReturnToTitle()
     {
+        StartCoroutine(ReturnToTitleWithSound());
+    }
+
+    // 音を鳴らして、少し待ってからシーンを切り替えるコルーチン
+    private IEnumerator ReturnToTitleWithSound()
+    {
+        // AudioManagerの司令塔を呼び出して、登録されているクリック音を再生
+        if (AudioManager.Instance != null && AudioManager.Instance.clickSound != null)
+        {
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.clickSound);
+        }
+
+        // 音が鳴り終わるのを少しだけ待つ
+        yield return new WaitForSeconds(0.3f);
+
+        // Titleシーンをロード
         SceneManager.LoadScene("Title");
     }
 
-    // 徐々に明るくするコルーチン
     private IEnumerator FadeIn()
     {
         fadeCanvasGroup.alpha = 1;
@@ -27,5 +42,6 @@ public class GameOverManager : MonoBehaviour
             fadeCanvasGroup.alpha -= Time.deltaTime;
             yield return null;
         }
+        fadeCanvasGroup.blocksRaycasts = false;
     }
 }

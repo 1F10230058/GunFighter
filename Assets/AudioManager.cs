@@ -6,6 +6,7 @@ public class AudioManager : MonoBehaviour
 
     private AudioSource bgmSource;
     private AudioSource sfxSource;
+    public AudioClip clickSound;
 
     private const string BGM_VOLUME_KEY = "BGMVolume";
     private const string SFX_VOLUME_KEY = "SFXVolume";
