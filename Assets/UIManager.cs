@@ -4,6 +4,7 @@ using TMPro;
 
 public class UIManager : MonoBehaviour
 {
+    public AudioClip clickSound;
     [Header("所持金表示")]
     public TextMeshProUGUI moneyText;
 
@@ -71,5 +72,9 @@ public class UIManager : MonoBehaviour
             buyJewelButton.interactable = false;
             buyJewelButton.GetComponentInChildren<TextMeshProUGUI>().text = "Sold out!";
         }
+    }
+    public void PlayClickSound() // <<< 新しい関数を追加
+    {
+        AudioManager.Instance.PlaySFX(clickSound);
     }
 }

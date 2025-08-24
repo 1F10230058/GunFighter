@@ -597,6 +597,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12ce62ee3c668174f851258014ecda79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  signalSound: {fileID: 8300000, guid: 64a02c2d579f53347b6bb91f9934b89b, type: 3}
+  feintSound: {fileID: 8300000, guid: ed188ee1f298a1d4ab6634c1db1653ff, type: 3}
+  winRoundSound: {fileID: 8300000, guid: dcae009ed17bbbd49aea4056dee83155, type: 3}
+  loseRoundSound: {fileID: 8300000, guid: 69efa25a26e0a9748b079586f4c19983, type: 3}
   signalText: {fileID: 1516304291}
   enemyHpBar: {fileID: 853494515}
   enemyDisplay: {fileID: 1029646728}

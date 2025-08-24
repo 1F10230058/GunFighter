@@ -6,6 +6,11 @@ using TMPro;
 
 public class BattleManager : MonoBehaviour
 {
+    [Header("サウンド")]
+    public AudioClip signalSound; // 「！」の音
+    public AudioClip feintSound;  // 「？」の音
+    public AudioClip winRoundSound; // 勝利時（銃を撃つ）の音
+    public AudioClip loseRoundSound; // 敗北時（撃たれる）の音
     [Header("UI参照")]
     public TextMeshProUGUI signalText;
     public Slider enemyHpBar; // <<< HPバー用の変数を追加
@@ -78,6 +83,7 @@ public class BattleManager : MonoBehaviour
         currentWins++;
 
         // --- 勝利時の演出を追加 ---
+        AudioManager.Instance.PlaySFX(winRoundSound);
         StartCoroutine(ShakeObject(enemyDisplay.transform, 0.2f, 0.1f)); // プレイヤーを揺らす
         if (enemyHpBar != null)
         {
@@ -119,6 +125,7 @@ public class BattleManager : MonoBehaviour
             {
                 yield return new WaitForSeconds(Random.Range(0.5f, 1.5f));
                 signalText.text = "?";
+                AudioManager.Instance.PlaySFX(feintSound);
                 yield return new WaitForSeconds(Random.Range(0.5f, 1.5f));
             }
         }
@@ -127,6 +134,7 @@ public class BattleManager : MonoBehaviour
         yield return new WaitForSeconds(randomWaitTime);
         currentState = BattleState.InputReady;
         signalText.text = "！";
+        AudioManager.Instance.PlaySFX(signalSound);
         yield return new WaitForSeconds(GameData.currentEnemyReactionTime);
         if (currentState == BattleState.InputReady)
         {
@@ -148,6 +156,7 @@ public class BattleManager : MonoBehaviour
         }
         else
         {
+            AudioManager.Instance.PlaySFX(loseRoundSound);
             StartCoroutine(ShakeObject(playerDisplay.transform, 0.4f, 0.2f));
             // Invokeをやめて、新しいコルーチンを呼び出す
             StartCoroutine(FadeToGameOver());
