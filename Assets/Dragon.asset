@@ -19,3 +19,4 @@ MonoBehaviour:
   reactionTime: 0.3
   usesFeint: 1
   requiredWins: 5
+  battleScaleMultiplier: 5

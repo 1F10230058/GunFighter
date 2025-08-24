@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyName: Robot
   sprite: {fileID: 21300000, guid: 452ee21746c1d314582f960091579886, type: 3}
-  moneyDropAmount: 10
+  moneyDropAmount: 300
   moveSpeed: 3
   reactionTime: 0.5
   usesFeint: 0
   requiredWins: 1
+  battleScaleMultiplier: 1

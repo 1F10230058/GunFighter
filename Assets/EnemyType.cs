@@ -18,4 +18,5 @@ public class EnemyType : ScriptableObject
     public float reactionTime = 0.5f; // 反応速度
     public bool usesFeint = false; // フェイントを使うかどうか
     public int requiredWins = 1; // 勝利に必要な回数
+    public float battleScaleMultiplier = 1f;
 }

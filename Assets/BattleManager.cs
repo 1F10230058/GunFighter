@@ -31,7 +31,9 @@ public class BattleManager : MonoBehaviour
         if (enemyDisplay != null)
         {
             enemyDisplay.transform.position = new Vector3(3f, 0, 0);
-            enemyDisplay.transform.localScale = new Vector3(characterScale, characterScale, 1f);
+                // 敵ごとのサイズ倍率を考慮した最終的な大きさを計算する
+            float finalEnemyScale = characterScale * GameData.currentEnemyBattleScaleMultiplier;
+            enemyDisplay.transform.localScale = new Vector3(finalEnemyScale, finalEnemyScale, 1f);
         }
 
         // スプライトの設定（変更なし）
@@ -133,6 +135,13 @@ public class BattleManager : MonoBehaviour
     void EndDuel(string resultMessage, bool isWin)
     {
         currentState = BattleState.Finished;
+        // 1. 進行中のタイマー（コルーチン）を全て停止
+        StopAllCoroutines();
+        // 2. 「次のラウンドを開始せよ」という予約をキャンセル
+        CancelInvoke("StartNextRound");
+
+        // 負けた場合も勝った場合も、最終結果をしっかり表示
+        signalText.text = resultMessage;
         if (!isWin) // 負けた場合はメッセージを上書き
         {
             signalText.text = resultMessage;
@@ -152,7 +161,7 @@ public class BattleManager : MonoBehaviour
         }
         else
         {
-            Invoke("GoToGameOver", 2f);
+            Invoke("GoToGameOver", 3f);
         }
     }
 

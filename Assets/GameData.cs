@@ -13,6 +13,7 @@ public static class GameData
     public static float currentEnemyReactionTime;
     public static bool currentEnemyUsesFeint;
     public static int currentEnemyRequiredWins = 1;
+    public static float currentEnemyBattleScaleMultiplier = 1f;
 
     // --- プレイヤーの状態 ---
     public static Vector3 playerLastPosition;
