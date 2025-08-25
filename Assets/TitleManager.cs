@@ -25,7 +25,7 @@ public class TitleManager : MonoBehaviour
         }
 
         // 音が鳴るのを少し待つ
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.1f);
 
         // "Field"シーンをロードする
         SceneManager.LoadScene("Field");

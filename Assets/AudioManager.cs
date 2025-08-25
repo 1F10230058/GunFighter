@@ -15,6 +15,7 @@ public class AudioManager : MonoBehaviour
     [Header("最大音量設定")]
     [Range(0f, 1f)] // Inspectorで0から1のスライダーになる
     public float maxBgmVolume = 0.5f; // BGMの最大音量を50%に設定
+    public float maxSfxVolume = 0.5f;
     // --- ここまで追加 ---
 
     void Awake()

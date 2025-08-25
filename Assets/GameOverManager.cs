@@ -28,7 +28,7 @@ public class GameOverManager : MonoBehaviour
         }
 
         // 音が鳴り終わるのを少しだけ待つ
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.1f);
 
         // Titleシーンをロード
         SceneManager.LoadScene("Title");
