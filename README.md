@@ -8,6 +8,15 @@
 
 ## 🎥 ゲームプレイ動画
 
+![ゲームプレイの様子](https://github.com/Es4da/GunFighter/blob/7dad3c4c5cb7176cdd25d1382baba1f7b709be75/Videotogif.gif)
+
+## 🎮 操作方法
+
+- 移動: WASD
+- ダッシュ: Shift
+- 攻撃: Spaceキー
+
+- 画面が綺麗に表示されない場合は全画面表示をお試しください。
 ## ✨ 主な機能
 
 - **データ駆動設計**: ScriptableObjectによる敵データ（ステータス、AIパターン等）の管理。
